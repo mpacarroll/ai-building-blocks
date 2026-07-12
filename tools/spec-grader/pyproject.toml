@@ -1,0 +1,18 @@
+[project]
+name = "spec-grader"
+version = "1.0.0"
+description = "Grade a spec for ambiguity and testable-requirement coverage. Offline, no accounts."
+requires-python = ">=3.10"
+dependencies = []
+license = { text = "MIT" }
+
+[project.scripts]
+spec-grade = "spec_grader.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["spec_grader*"]
