@@ -24,7 +24,7 @@ Spec-driven development, with these non-negotiables:
 Inspired by, and built on, the [superpowers](https://github.com/obra/superpowers) methodology by obra.
 
 ## Who's Mick
-I'm Mick. I build things that ship and write about doing it with AI, in the open — the tools in this repo are the proof. Pro-AI, anti-hype, proof over promises, no résumé required. [More about Mick →](https://mpacarroll.github.io/mick/#about)
+I'm Mick. I build things that ship and write about doing it with AI, in the open — the tools in this repo are the proof. Pro-AI, anti-hype, proof over promises, no résumé required. [More about Mick →](https://mpacarroll.github.io/ai-mick/#about)
 
 ## License
 MIT — see [LICENSE](LICENSE).
