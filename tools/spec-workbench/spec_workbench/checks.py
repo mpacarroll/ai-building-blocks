@@ -316,8 +316,11 @@ def _dangling(spec):
     for r in spec["requirements"]:
         for d in r.get("depends_on", []):
             if d not in dec_ids:
+                why = ("which is not a decision; depends_on lists the decisions a "
+                       "requirement waits on" if model.prefix_of(d) != "D"
+                       else "which does not exist")
                 out.append(_finding("WB013", BLOCKING, [r["id"], d],
-                                    f"{r['id']} depends on {d}, which does not exist.",
+                                    f"{r['id']} depends on {d}, {why}.",
                                     f"Remove {d} from {r['id']}'s depends_on."))
     return out
 

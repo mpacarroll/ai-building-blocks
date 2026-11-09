@@ -92,3 +92,42 @@ def test_load_migrates_schema_zero_file(tmp_path):
     (tmp_path / "spec.json").write_text(json.dumps({"title": "Old", "requirements": ["It must run."]}))
     spec = store.load(tmp_path)
     assert spec["schema"] == 1 and spec["requirements"][0]["id"] == "R1"
+
+
+def test_interrupted_save_does_not_resurrect_an_older_revision(tmp_path):
+    # commit() writes history first; a crash before spec.json is written leaves
+    # spec.json one revision behind. Loading must restore the newest revision,
+    # or the next commit drops it and reuses its IDs.
+    s = make(tmp_path)
+    model.add(s, "requirements", {"text": "It must stop."})
+    store.commit(tmp_path, s, "second")
+    old = store.read_revision(tmp_path, 1)["spec"]
+    (tmp_path / store.SPEC_FILE).write_text(json.dumps(old))
+    warnings = []
+    loaded = store.load(tmp_path, warn=warnings.append)
+    assert [r["id"] for r in loaded["requirements"]] == ["R1", "R2"]
+    assert "interrupted" in warnings[0]
+    assert model.next_id(loaded, "requirements") == "R3"
+
+
+def test_hand_edit_that_matches_no_revision_is_kept(tmp_path):
+    make(tmp_path)
+    raw = json.loads((tmp_path / store.SPEC_FILE).read_text())
+    raw["requirements"].append({"id": "R7", "text": "Hand added."})  # no priority
+    (tmp_path / store.SPEC_FILE).write_text(json.dumps(raw))
+    warnings = []
+    loaded = store.load(tmp_path, warn=warnings.append)
+    assert warnings == []
+    assert model.find(loaded, "R7")["priority"] == "must"   # default filled in
+
+
+def test_hand_edit_with_a_broken_item_is_moved_aside_not_crashed(tmp_path):
+    make(tmp_path)
+    raw = json.loads((tmp_path / store.SPEC_FILE).read_text())
+    raw["requirements"].append({"id": "R7"})
+    (tmp_path / store.SPEC_FILE).write_text(json.dumps(raw))
+    warnings = []
+    loaded = store.load(tmp_path, warn=warnings.append)
+    assert [r["id"] for r in loaded["requirements"]] == ["R1"]
+    assert "R7: text" in warnings[0]
+    assert (tmp_path / "spec.json.corrupt-1").exists()

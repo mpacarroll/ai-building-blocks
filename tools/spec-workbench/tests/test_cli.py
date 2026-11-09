@@ -105,3 +105,19 @@ def test_corrupt_workspace_is_recovered_from_cli(ws, capsys):
     capsys.readouterr()
     assert cli.main(["check", str(ws)]) == 0
     assert "restored revision 1" in capsys.readouterr().err
+
+
+def test_apply_aliases_are_whole_tokens_and_single_pass(tmp_path):
+    names = {"$d": "D2", "$d2": "D3", "$r": "R1"}
+    assert cli._subst("$d2", names) == "D3"
+    assert cli._subst(["$d", "$d2", "x$dy"], names) == ["D2", "D3", "x$dy"]
+    assert cli._subst("$r", {"$r": "R1", "R1": "zzz"}) == "R1"   # never rewritten twice
+
+
+def test_depends_on_a_non_decision_says_so(tmp_path, capsys):
+    w = tmp_path / "w"
+    cli.main(["new", str(w)])
+    cli.main(["add", str(w), "requirement", "The tool must exit 0.", "--depends", "R1"])
+    capsys.readouterr()
+    cli.main(["check", str(w)])
+    assert "R1 depends on R1, which is not a decision" in capsys.readouterr().out

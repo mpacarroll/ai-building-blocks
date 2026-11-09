@@ -29,6 +29,20 @@ KINDS = {
 }
 
 PRIORITIES = ("must", "should", "could")
+DECISION_STATUSES = ("open", "decided")
+CRITERION_STATUSES = ("draft", "agreed")
+
+# Fields each collection may hold (besides "id"). Anything else is a typo or a
+# field meant for another kind of item, so edits reject it.
+_TEXT_FIELDS = ("text", "source")
+FIELDS = {
+    "users": _TEXT_FIELDS, "goals": _TEXT_FIELDS, "non_goals": _TEXT_FIELDS,
+    "constraints": _TEXT_FIELDS, "unclassified": _TEXT_FIELDS,
+    "requirements": _TEXT_FIELDS + ("priority", "depends_on"),
+    "assumptions": _TEXT_FIELDS + ("validation",),
+    "decisions": ("question", "options", "status", "choice", "rationale", "source"),
+    "acceptance": ("requirement", "given", "when", "then", "status", "source"),
+}
 
 
 class SpecError(ValueError):
@@ -85,7 +99,8 @@ def _defaults(collection: str, fields: dict) -> dict:
     elif collection == "assumptions":
         item.setdefault("validation", None)
     elif collection == "acceptance":
-        for k in ("requirement", "given", "when", "then"):
+        item.setdefault("requirement", None)
+        for k in ("given", "when", "then"):
             item.setdefault(k, "")
         item.setdefault("status", "draft")
     if collection == "decisions":
@@ -100,6 +115,11 @@ def add(spec: dict, collection: str, fields: dict) -> dict:
     if collection not in COLLECTIONS:
         raise SpecError(f"unknown collection {collection!r}")
     item = _defaults(collection, fields)
+    unknown = [k for k in item if k != "id" and k not in FIELDS[collection]]
+    if unknown:
+        raise SpecError(f"{collection.replace('_', '-')} take no field "
+                        f"{', '.join(repr(k) for k in unknown)}")
+    check_item(collection, {"id": "?", **item})
     item["id"] = next_id(spec, collection)
     spec[collection].append({"id": item.pop("id"), **item})
     return spec[collection][-1]
@@ -109,12 +129,16 @@ def edit(spec: dict, item_id: str, fields: dict) -> dict:
     item = find(spec, item_id)
     if item is None:
         raise SpecError(f"no item {item_id}")
-    for k, v in fields.items():
+    coll = collection_of(item_id)
+    for k in fields:
         if k == "id":
             raise SpecError("IDs cannot be changed")
-        if k == "priority" and v not in PRIORITIES:
-            raise SpecError(f"priority must be one of {', '.join(PRIORITIES)}")
-        item[k] = v
+        if k not in FIELDS[coll]:
+            raise SpecError(f"{item_id} has no field {k!r}; {coll.replace('_', '-')} take: "
+                            f"{', '.join(f for f in FIELDS[coll] if f != 'source')}")
+    candidate = {**item, **fields}
+    check_item(coll, candidate)
+    item.update(fields)
     return item
 
 
@@ -174,6 +198,92 @@ def validate(spec) -> None:
             if item["id"] in seen:
                 raise SpecError(f"duplicate ID {item['id']}")
             seen.add(item["id"])
+            check_item(name, item)
+    for w in spec["waivers"]:
+        if not (isinstance(w, dict) and isinstance(w.get("key"), str)
+                and isinstance(w.get("reason"), str) and w["reason"].strip()):
+            raise SpecError("every waiver needs a key and a reason")
+
+
+def _is_str(v):
+    return isinstance(v, str)
+
+
+def _is_opt_str(v):
+    return v is None or isinstance(v, str)
+
+
+def _is_str_list(v):
+    return isinstance(v, list) and all(isinstance(x, str) for x in v)
+
+
+def check_item(collection: str, item: dict) -> None:
+    """Raise SpecError if one item has a missing or wrongly typed field."""
+    iid = item.get("id", "?")
+
+    def need(field, ok, what):
+        if not ok(item.get(field)):
+            raise SpecError(f"{iid}: {field} must be {what}")
+
+    if collection == "decisions":
+        need("question", lambda v: _is_str(v) and v.strip(), "non-empty text")
+        need("options", _is_str_list, "a list of text")
+        need("status", lambda v: v in DECISION_STATUSES, f"one of {', '.join(DECISION_STATUSES)}")
+        need("choice", _is_opt_str, "text or null")
+        need("rationale", _is_opt_str, "text or null")
+        if item["status"] == "decided" and not (item["choice"] or "").strip():
+            raise SpecError(f"{iid}: a decided decision needs a choice")
+    elif collection == "acceptance":
+        need("requirement", _is_opt_str, "a requirement ID or null")
+        for k in ("given", "when", "then"):
+            need(k, _is_str, "text")
+        need("status", lambda v: v in CRITERION_STATUSES,
+             f"one of {', '.join(CRITERION_STATUSES)}")
+    else:
+        need("text", lambda v: _is_str(v) and v.strip(), "non-empty text")
+        if collection == "requirements":
+            need("priority", lambda v: v in PRIORITIES, f"one of {', '.join(PRIORITIES)}")
+            need("depends_on", _is_str_list, "a list of decision IDs")
+        elif collection == "assumptions":
+            need("validation", _is_opt_str, "text or null")
+    if "source" in item and not isinstance(item["source"], dict):
+        raise SpecError(f"{iid}: source must be an object")
+
+
+def normalize(spec: dict) -> dict:
+    """Fill optional fields a hand-edited spec.json may leave out, in place.
+
+    Only defaults are added; nothing present is changed. Missing required text
+    still fails validate().
+    """
+    if not isinstance(spec, dict):
+        return spec
+    spec.setdefault("problem", "")
+    spec.setdefault("counters", {})
+    spec.setdefault("waivers", [])
+    for name in COLLECTIONS:
+        items = spec.setdefault(name, [])
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            if name == "requirements":
+                item.setdefault("priority", "must")
+                item.setdefault("depends_on", [])
+            elif name == "decisions":
+                item.setdefault("options", [])
+                item.setdefault("status", "decided" if item.get("choice") else "open")
+                item.setdefault("choice", None)
+                item.setdefault("rationale", None)
+            elif name == "assumptions":
+                item.setdefault("validation", None)
+            elif name == "acceptance":
+                for k in ("given", "when", "then"):
+                    item.setdefault(k, "")
+                item.setdefault("requirement", None)
+                item.setdefault("status", "draft")
+    return spec
 
 
 def migrate(raw: dict) -> dict:

@@ -13,6 +13,7 @@ Fully local: no network, no account, no model calls. Exit codes: 0 ok,
 import argparse
 import json
 import pathlib
+import re
 import sys
 
 from . import checks, diff as diffmod, export, intake as intakemod, model, store, templates
@@ -202,10 +203,16 @@ def cmd_waive(a):
 
 
 def _subst(value, names):
+    """Replace each alias ("$anon") with the ID it was given, in one pass.
+
+    Longest alias first and whole tokens only, so "$d" never rewrites part of
+    "$d2", and a replaced ID is never rewritten again.
+    """
     if isinstance(value, str):
-        for k, v in names.items():
-            value = value.replace(k, v)
-        return value
+        if not names:
+            return value
+        pattern = "|".join(re.escape(k) for k in sorted(names, key=len, reverse=True))
+        return re.sub(rf"(?:{pattern})(?![A-Za-z0-9_])", lambda m: names[m.group(0)], value)
     if isinstance(value, list):
         return [_subst(v, names) for v in value]
     if isinstance(value, dict):

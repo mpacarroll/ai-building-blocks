@@ -111,6 +111,35 @@ def latest_rev(ws) -> int:
     return int(files[-1].stem) if files else 0
 
 
+def _valid_entries(ws):
+    """Yield (path, entry) for readable, valid revisions, newest first."""
+    for p in reversed(history_files(ws)):
+        try:
+            entry = json.loads(p.read_text(encoding="utf-8"))
+            model.validate(entry["spec"])
+        except (ValueError, KeyError, TypeError, model.SpecError):
+            continue
+        yield p, entry
+
+
+def _stale_revision(ws, spec):
+    """If `spec` equals an older revision but not the latest, return that older rev.
+
+    commit() writes history before spec.json, so an interrupted save leaves
+    spec.json one revision behind. Loading it as current would silently drop
+    the newest revision and let its IDs be handed out again. A spec.json that
+    matches no revision is a hand edit and is kept.
+    """
+    entries = _valid_entries(ws)
+    latest = next(entries, None)
+    if latest is None or latest[1]["spec"] == spec:
+        return None
+    for _, entry in entries:
+        if entry["spec"] == spec:
+            return entry["rev"]
+    return None
+
+
 def load(ws, warn=None) -> dict:
     """Load the current spec, recovering from a corrupt spec.json.
 
@@ -124,20 +153,20 @@ def load(ws, warn=None) -> dict:
     if path.exists():
         try:
             raw = json.loads(path.read_text(encoding="utf-8"))
-            spec = model.migrate(raw)
+            spec = model.normalize(model.migrate(raw))
             model.validate(spec)
-            return spec
         except (ValueError, model.SpecError) as e:
             problem = str(e)
+        else:
+            stale = _stale_revision(ws, spec)
+            if stale is None:
+                return spec
+            problem = (f"it still holds revision {stale}, older than the latest revision; "
+                       "a save was interrupted")
     else:
         problem = "spec.json is missing"
-    for p in reversed(history_files(ws)):
-        try:
-            entry = json.loads(p.read_text(encoding="utf-8"))
-            spec = entry["spec"]
-            model.validate(spec)
-        except (ValueError, KeyError, TypeError, model.SpecError):
-            continue
+    for p, entry in _valid_entries(ws):
+        spec = entry["spec"]
         moved = None
         if path.exists():
             n = 1
