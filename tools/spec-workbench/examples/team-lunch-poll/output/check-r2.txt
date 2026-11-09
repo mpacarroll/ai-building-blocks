@@ -1,0 +1,54 @@
+Spec: Lunch poll idea (revision 2)
+Not ready to build: 10 blocking, 0 warning, 0 info, 0 waived
+
+BLOCKING
+  WB002 missing-criterion  [R1]
+    R1 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R1 --given ... --when ... --then ...
+    key: WB002:R1
+  WB002 missing-criterion  [R2]
+    R2 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R2 --given ... --when ... --then ...
+    key: WB002:R2
+  WB002 missing-criterion  [R3]
+    R3 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R3 --given ... --when ... --then ...
+    key: WB002:R3
+  WB002 missing-criterion  [R4]
+    R4 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R4 --given ... --when ... --then ...
+    key: WB002:R4
+  WB002 missing-criterion  [R5]
+    R5 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R5 --given ... --when ... --then ...
+    key: WB002:R5
+  WB002 missing-criterion  [R7]
+    R7 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R7 --given ... --when ... --then ...
+    key: WB002:R7
+  WB002 missing-criterion  [R9]
+    R9 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R9 --given ... --when ... --then ...
+    key: WB002:R9
+  WB002 missing-criterion  [R12]
+    R12 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R12 --given ... --when ... --then ...
+    key: WB002:R12
+  WB002 missing-criterion  [R13]
+    R13 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R13 --given ... --when ... --then ...
+    key: WB002:R13
+  WB002 missing-criterion  [R14]
+    R14 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R14 --given ... --when ... --then ...
+    key: WB002:R14
+
+Wording lint (Spec Grader): A (100/100)
+A numeric grade is never proof of success: it measures wording, not whether the spec describes the right thing or whether the built software works.
+
+What these checks cannot judge:
+  - Whether this is the right product to build, or whether users want it.
+  - Contradictions that need domain knowledge (for example 'votes are anonymous' versus 'the organizer sees who voted'). Only word overlap, negation and numeric bounds are compared.
+  - Whether an acceptance criterion is sufficient, only whether it is complete and names an observable outcome.
+  - Ambiguity outside the curated Spec Grader lexicon.
+  - Feasibility, effort, security or legal risk.

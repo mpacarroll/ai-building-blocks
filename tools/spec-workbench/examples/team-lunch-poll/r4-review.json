@@ -1,0 +1,5 @@
+[
+  {"op": "edit", "id": "AC7", "fields": {"then": "the winning place and its vote count are shown to every voter within 2 seconds of the close time"}},
+  {"op": "waive", "key": "WB004:AC10",
+   "reason": "Human review: 'the organizer is asked to pick A or B' is an observable prompt; the rule's verb list does not include 'is asked'."}
+]

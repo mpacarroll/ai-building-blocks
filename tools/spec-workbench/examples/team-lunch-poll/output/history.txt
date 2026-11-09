@@ -1,0 +1,4 @@
+   1  2026-11-09T09:00:00Z  intake from brief.md
+   2  2026-11-09T09:30:00Z  Decide open questions, resolve conflicts, sharpen wording
+   3  2026-11-09T10:00:00Z  Add acceptance criteria for every must requirement
+   4  2026-11-09T10:15:00Z  Sharpen AC7; waive a verb-list false positive on AC10

@@ -1,0 +1,53 @@
+Evidence for: Lunch poll idea (revision 5)
+Saved evidence run 1: 11 test result(s) from junit.xml.
+5 of 10 criteria verified. 1 stale, 1 unpinned, 1 failing, 2 unwritten
+
+  AC1   VERIFIED  req R1  fp=50eb9bc7c1
+        passed  test_acceptance::test_ac1_any_team_member_can_start_a (pinned to current wording)
+  AC2   UNWRITTEN req R2  fp=9be8e6ff5b
+        failed  test_acceptance::test_ac2_a_voter_must_be_able_to (pinned to current wording): NotImplementedError: write the check for AC2
+  AC3   VERIFIED  req R3  fp=07bacebb21
+        passed  test_acceptance::test_ac3_a_voter_must_not_see_how (pinned to current wording)
+  AC4   VERIFIED  req R4  fp=88483594ea
+        passed  test_acceptance::test_ac4_the_organizer_must_see_who_voted (pinned to current wording)
+  AC5   STALE     req R5  fp=be3ce8dc88
+        passed  test_acceptance::test_ac5_the_poll_must_close_automatically_10 (pinned to fp=d051928e82)
+  AC6   VERIFIED  req R7  fp=afbc3ee754
+        passed  test_acceptance::test_ac6_a_voter_can_change_their_vote (pinned to current wording)
+  AC7   UNWRITTEN req R9  fp=3373f3a0b5
+        failed  test_acceptance::test_ac7_results_must_appear_within_2_seconds (pinned to current wording): NotImplementedError: write the check for AC7
+  AC8   VERIFIED  req R12  fp=6af4a1df30
+        passed  test_acceptance::test_ac8_the_tool_must_email_every_team (pinned to current wording)
+  AC9   UNPINNED  req R13  fp=7df1de6e41
+        passed  test_acceptance::test_ac9_every_team_member_must_get_an (no pin)
+  AC10  FAILING   req R14  fp=18f226eebf
+        failed  test_acceptance::test_ac10_when_two_or_more_places_tie (pinned to current wording): AssertionError: assert ['A', 'B', 'C'] == ['A', 'B']
+
+Requirements
+  R1    verified
+  R2    unwritten
+  R3    verified
+  R4    verified
+  R5    stale
+  R7    verified
+  R9    unwritten
+  R11   no criterion
+  R12   verified
+  R13   unpinned
+  R14   failing
+
+1 test(s) name no criterion and were ignored.
+
+Statuses:
+  verified   a test pinned to the current wording passed
+  stale      a test passed, but it was pinned to older wording of this criterion
+  unpinned   a test passed, but it has no pin comment, so drift cannot be detected
+  failing    a mapped test failed or errored
+  unwritten  the mapped test is still the generated NotImplementedError skeleton
+  skipped    every mapped test was skipped
+  untested   no test result names this criterion
+
+What evidence cannot prove:
+  - A passing test proves the test passed, not that it checks what the criterion says. Read the test before you trust the tick.
+  - Tests are matched to criteria by pin comments or an 'acN' token in the test name. A test that checks a criterion under another name is invisible here.
+  - Evidence is only as fresh as the results file you pass in.

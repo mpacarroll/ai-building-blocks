@@ -1,0 +1,336 @@
+{
+  "schema": 1,
+  "title": "Lunch poll idea",
+  "problem": "Every Friday our team wastes twenty minutes in chat arguing about where to get lunch.",
+  "counters": {
+    "G": 1,
+    "U": 1,
+    "R": 14,
+    "D": 3,
+    "A": 2,
+    "N": 2,
+    "C": 2,
+    "X": 1,
+    "AC": 10
+  },
+  "waivers": [
+    {
+      "key": "WB004:AC10",
+      "reason": "Human review: 'the organizer is asked to pick A or B' is an observable prompt; the rule's verb list does not include 'is asked'."
+    }
+  ],
+  "users": [
+    {
+      "id": "U1",
+      "text": "It's for small office teams, usually 5 to 15 people.",
+      "source": {
+        "line": 5,
+        "text": "It's for small office teams, usually 5 to 15 people."
+      }
+    }
+  ],
+  "goals": [
+    {
+      "id": "G1",
+      "text": "The goal is to pick a place in under five minutes so people stop arguing.",
+      "source": {
+        "line": 4,
+        "text": "The goal is to pick a place in under five minutes so people stop arguing."
+      }
+    }
+  ],
+  "non_goals": [
+    {
+      "id": "N1",
+      "text": "No mobile app in v1.",
+      "source": {
+        "line": 21,
+        "text": "No mobile app in v1."
+      }
+    },
+    {
+      "id": "N2",
+      "text": "Integrations with ordering services are out of scope.",
+      "source": {
+        "line": 24,
+        "text": "Integrations with ordering services are out of scope."
+      }
+    }
+  ],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Any team member can start a poll with 2 to 8 restaurant options.",
+      "priority": "must",
+      "source": {
+        "line": 7,
+        "text": "Anyone on the team can start a poll with a few restaurant options."
+      },
+      "depends_on": []
+    },
+    {
+      "id": "R2",
+      "text": "A voter must be able to cast a vote in at most 2 taps from the poll link, in a phone or laptop browser.",
+      "priority": "must",
+      "source": {
+        "line": 8,
+        "text": "People should be able to vote fast, ideally from their phone."
+      },
+      "depends_on": []
+    },
+    {
+      "id": "R3",
+      "text": "A voter must not see how any other person voted.",
+      "priority": "must",
+      "source": {
+        "line": 9,
+        "text": "Votes need to be anonymous."
+      },
+      "depends_on": [
+        "D3"
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "The organizer must see who voted for what so they can place the order.",
+      "priority": "must",
+      "source": {
+        "line": 10,
+        "text": "The organizer must see who voted for what so they can place the order."
+      },
+      "depends_on": [
+        "D3"
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "The poll must close automatically 15 minutes after it opens, unless the organizer closes it sooner.",
+      "priority": "must",
+      "source": {
+        "line": 11,
+        "text": "The poll must close automatically within 10 minutes."
+      },
+      "depends_on": []
+    },
+    {
+      "id": "R7",
+      "text": "A voter can change their vote until the poll closes.",
+      "priority": "must",
+      "source": {
+        "line": 13,
+        "text": "Voters can change their vote."
+      },
+      "depends_on": []
+    },
+    {
+      "id": "R9",
+      "text": "Results must appear within 2 seconds of the poll closing.",
+      "priority": "must",
+      "source": {
+        "line": 15,
+        "text": "Results should show within 2 seconds of the poll closing."
+      },
+      "depends_on": []
+    },
+    {
+      "id": "R11",
+      "text": "It would be nice to remember everyone's favorite places.",
+      "priority": "could",
+      "source": {
+        "line": 17,
+        "text": "It would be nice to remember everyone's favorite places."
+      },
+      "depends_on": []
+    },
+    {
+      "id": "R12",
+      "text": "The tool must email every team member a reminder 2 minutes before the poll closes.",
+      "priority": "must",
+      "depends_on": [
+        "D1"
+      ],
+      "source": {
+        "line": 18,
+        "text": "We need to send a reminder before the poll closes, Slack or email?"
+      }
+    },
+    {
+      "id": "R13",
+      "text": "Every team member must get an email with the poll link when a poll opens.",
+      "priority": "must",
+      "source": {
+        "line": 22,
+        "text": "Members must get a push notification on the mobile app when a poll opens."
+      },
+      "depends_on": []
+    },
+    {
+      "id": "R14",
+      "text": "When two or more places tie, the organizer must pick the winner from the tied places.",
+      "priority": "must",
+      "depends_on": [
+        "D2"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "question": "Slack or email?",
+      "options": [
+        "Slack",
+        "email"
+      ],
+      "source": {
+        "line": 18,
+        "text": "We need to send a reminder before the poll closes, Slack or email?"
+      },
+      "status": "decided",
+      "choice": "email",
+      "rationale": "A1 says everyone has a work email; not every team uses Slack."
+    },
+    {
+      "id": "D2",
+      "question": "Should ties be broken randomly or by the organizer?",
+      "options": [
+        "randomly",
+        "by the organizer"
+      ],
+      "source": {
+        "line": 23,
+        "text": "Should ties be broken randomly or by the organizer?"
+      },
+      "status": "decided",
+      "choice": "the organizer picks from the tied places",
+      "rationale": "The organizer places the order anyway, so they break the tie."
+    },
+    {
+      "id": "D3",
+      "question": "R3 says votes are anonymous but R4 says the organizer sees who voted for what. Which wins?",
+      "options": [
+        "fully anonymous",
+        "hidden from voters, visible to the organizer"
+      ],
+      "status": "decided",
+      "choice": "hidden from voters, visible to the organizer",
+      "rationale": "Found in human review, not by a rule. The organizer needs names to place the order."
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A1",
+      "text": "I assume everyone already has a work email address.",
+      "source": {
+        "line": 19,
+        "text": "I assume everyone already has a work email address."
+      },
+      "validation": "Ask the pilot team's admin before the build starts."
+    },
+    {
+      "id": "A2",
+      "text": "Probably most people will vote from a laptop anyway.",
+      "source": {
+        "line": 20,
+        "text": "Probably most people will vote from a laptop anyway."
+      },
+      "validation": "Count phone versus laptop votes in the first week of pilot polls."
+    }
+  ],
+  "constraints": [
+    {
+      "id": "C1",
+      "text": "Budget is one developer for two weeks.",
+      "source": {
+        "line": 25,
+        "text": "Budget is one developer for two weeks."
+      }
+    },
+    {
+      "id": "C2",
+      "text": "Use the default component styles of the chosen web framework; no custom visual design in v1."
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "AC1",
+      "requirement": "R1",
+      "given": "a signed-in team member on the new poll page",
+      "when": "they enter 1 option, then 9 options, then 3 options and press Start",
+      "then": "1 and 9 options are rejected with the message \"Add 2 to 8 places\" and 3 options create an open poll",
+      "status": "draft"
+    },
+    {
+      "id": "AC2",
+      "requirement": "R2",
+      "given": "an open poll and its link on a phone browser",
+      "when": "a voter opens the link and taps one place",
+      "then": "the vote is saved after the second tap and the page shows \"Vote saved\"",
+      "status": "draft"
+    },
+    {
+      "id": "AC3",
+      "requirement": "R3",
+      "given": "an open poll with votes from 3 people",
+      "when": "a voter who is not the organizer views the poll",
+      "then": "the page shows vote counts per place and no voter names",
+      "status": "draft"
+    },
+    {
+      "id": "AC4",
+      "requirement": "R4",
+      "given": "a closed poll with votes from 3 people",
+      "when": "the organizer opens the results",
+      "then": "each place lists the names of the people who voted for it",
+      "status": "draft"
+    },
+    {
+      "id": "AC5",
+      "requirement": "R5",
+      "given": "a poll opened at 12:00:00",
+      "when": "no one closes it",
+      "then": "its status is closed at 12:15:00 and new votes are rejected",
+      "status": "draft"
+    },
+    {
+      "id": "AC6",
+      "requirement": "R7",
+      "given": "a voter who voted for place A in an open poll",
+      "when": "they vote for place B",
+      "then": "the poll counts 1 vote for B and 0 votes for A from that voter",
+      "status": "draft"
+    },
+    {
+      "id": "AC7",
+      "requirement": "R9",
+      "given": "a poll with 15 votes",
+      "when": "the poll closes",
+      "then": "the winning place and its vote count are shown to every voter within 2 seconds of the close time",
+      "status": "draft"
+    },
+    {
+      "id": "AC8",
+      "requirement": "R12",
+      "given": "a poll that closes at 12:10:00 for a team of 5",
+      "when": "the clock reaches 12:08:00",
+      "then": "5 reminder emails are sent, one to each team member",
+      "status": "draft"
+    },
+    {
+      "id": "AC9",
+      "requirement": "R13",
+      "given": "a team of 5",
+      "when": "a member starts a poll",
+      "then": "5 emails containing the poll link are sent",
+      "status": "draft"
+    },
+    {
+      "id": "AC10",
+      "requirement": "R14",
+      "given": "a closed poll where places A and B each have 3 votes",
+      "when": "the organizer opens the results",
+      "then": "the organizer is asked to pick A or B, and the other places are not offered",
+      "status": "draft"
+    }
+  ],
+  "unclassified": []
+}

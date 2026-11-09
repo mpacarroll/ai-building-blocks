@@ -1,0 +1,63 @@
+Changes from revision 1 to revision 4
+  + AC1: R1: given a signed-in team member on the new poll page, when they enter 1 option, then 9 options, then 3 options and press Start, then 1 and 9 options are rejected with the message "Add 2 to 8 places" and 3 options create an open poll
+  + AC2: R2: given an open poll and its link on a phone browser, when a voter opens the link and taps one place, then the vote is saved after the second tap and the page shows "Vote saved"
+  + AC3: R3: given an open poll with votes from 3 people, when a voter who is not the organizer views the poll, then the page shows vote counts per place and no voter names
+  + AC4: R4: given a closed poll with votes from 3 people, when the organizer opens the results, then each place lists the names of the people who voted for it
+  + AC5: R5: given a poll opened at 12:00:00, when no one closes it, then its status is closed at 12:10:00 and new votes are rejected
+  + AC6: R7: given a voter who voted for place A in an open poll, when they vote for place B, then the poll counts 1 vote for B and 0 votes for A from that voter
+  + AC7: R9: given a poll with 15 votes, when the poll closes, then the winning place and its vote count are shown to every voter within 2 seconds of the close time
+  + AC8: R12: given a poll that closes at 12:10:00 for a team of 5, when the clock reaches 12:08:00, then 5 reminder emails are sent, one to each team member
+  + AC9: R13: given a team of 5, when a member starts a poll, then 5 emails containing the poll link are sent
+  + AC10: R14: given a closed poll where places A and B each have 3 votes, when the organizer opens the results, then the organizer is asked to pick A or B, and the other places are not offered
+  + C2: Use the default component styles of the chosen web framework; no custom visual design in v1.
+  + D3: R3 says votes are anonymous but R4 says the organizer sees who voted for what. Which wins?
+  + R14: When two or more places tie, the organizer must pick the winner from the tied places.
+  - R6: Polls must stay open at least 15 minutes so remote people can vote.
+  - R8: Voters cannot change their vote once cast.
+  - R10: Results must load in under 1 second.
+  - X1: Make it look nice.
+  ~ A1.validation: None -> "Ask the pilot team's admin before the build starts."
+  ~ A2.validation: None -> 'Count phone versus laptop votes in the first week of pilot polls.'
+  ~ D1.choice: None -> 'email'
+  ~ D1.rationale: None -> 'A1 says everyone has a work email; not every team uses Slack.'
+  ~ D1.status: 'open' -> 'decided'
+  ~ D2.choice: None -> 'the organizer picks from the tied places'
+  ~ D2.rationale: None -> 'The organizer places the order anyway, so they break the tie.'
+  ~ D2.status: 'open' -> 'decided'
+  ~ R1.text: 'Anyone on the team can start a poll with a few restaurant options.' -> 'Any team member can start a poll with 2 to 8 restaurant options.'
+  ~ R2.priority: 'should' -> 'must'
+  ~ R2.text: 'People should be able to vote fast, ideally from their phone.' -> 'A voter must be able to cast a vote in at most 2 taps from the poll link, in a phone or laptop browser.'
+  ~ R3.depends_on: [] -> ['D3']
+  ~ R3.text: 'Votes need to be anonymous.' -> 'A voter must not see how any other person voted.'
+  ~ R4.depends_on: [] -> ['D3']
+  ~ R5.text: 'The poll must close automatically within 10 minutes.' -> 'The poll must close automatically 10 minutes after it opens, unless the organizer closes it sooner.'
+  ~ R7.text: 'Voters can change their vote.' -> 'A voter can change their vote until the poll closes.'
+  ~ R9.priority: 'should' -> 'must'
+  ~ R9.text: 'Results should show within 2 seconds of the poll closing.' -> 'Results must appear within 2 seconds of the poll closing.'
+  ~ R12.text: 'We need to send a reminder before the poll closes.' -> 'The tool must email every team member a reminder 2 minutes before the poll closes.'
+  ~ R13.text: 'Members must get a push notification on the mobile app when a poll opens.' -> 'Every team member must get an email with the poll link when a poll opens.'
+Findings resolved: 23
+  [fixed] WB001:R1 R1 uses ambiguous wording: few.
+  [fixed] WB001:R2 R2 uses ambiguous wording: fast, ideally.
+  [fixed] WB002:R1 R1 (must) has no acceptance criterion.
+  [fixed] WB002:R2 R2 (should) has no acceptance criterion.
+  [fixed] WB002:R3 R3 (must) has no acceptance criterion.
+  [fixed] WB002:R4 R4 (must) has no acceptance criterion.
+  [fixed] WB002:R5 R5 (must) has no acceptance criterion.
+  [fixed] WB002:R6 R6 (must) has no acceptance criterion.
+  [fixed] WB002:R7 R7 (must) has no acceptance criterion.
+  [fixed] WB002:R8 R8 (must) has no acceptance criterion.
+  [fixed] WB002:R9 R9 (should) has no acceptance criterion.
+  [fixed] WB002:R10 R10 (must) has no acceptance criterion.
+  [fixed] WB002:R12 R12 (must) has no acceptance criterion.
+  [fixed] WB002:R13 R13 (must) has no acceptance criterion.
+  [fixed] WB005:D1~R12 D1 is open and R12 depend(s) on it: Slack or email? Options: Slack, email.
+  [fixed] WB005:D2 D2 is open: Should ties be broken randomly or by the organizer? Options: randomly, by the organizer.
+  [fixed] WB006:N1~R13 R13 asks for what non-goal N1 rules out (shared words: app, mobile). N1: "No mobile app in v1." R13: "Members must get a push notification on the mobile app when a poll opens."
+  [fixed] WB007:R5~R6 R5 "within 10 minutes" and R6 "at least 15 minutes" cannot both hold for: poll.
+  [fixed] WB007:R9~R10 R9 "within 2 seconds" and R10 "under 1 second" set different limits on: result.
+  [fixed] WB008:R7~R8 R7 and R8 say opposite things about the same behavior (60 percent word overlap). R7: "Voters can change their vote." R8: "Voters cannot change their vote once cast."
+  [fixed] WB012:A1 A1 has no validation plan: "I assume everyone already has a work email address."
+  [fixed] WB012:A2 A2 has no validation plan: "Probably most people will vote from a laptop anyway."
+  [fixed] WB014:X1 Intake could not classify line 26: "Make it look nice."
+Findings introduced: 0

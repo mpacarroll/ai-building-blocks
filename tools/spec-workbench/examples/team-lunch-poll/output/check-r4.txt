@@ -1,0 +1,19 @@
+Spec: Lunch poll idea (revision 4)
+Ready to build: 0 blocking, 0 warning, 0 info, 1 waived
+
+WAIVED
+  WB004 unobservable-outcome (judgment call)  [AC10]
+    AC10 'then' names no number, quoted text or observable verb, so a tester may not know what to look for.
+    fix: State what the user or a test sees: a value, a message, a saved record.
+    waived: Human review: 'the organizer is asked to pick A or B' is an observable prompt; the rule's verb list does not include 'is asked'.
+    key: WB004:AC10
+
+Wording lint (Spec Grader): A (100/100)
+A numeric grade is never proof of success: it measures wording, not whether the spec describes the right thing or whether the built software works.
+
+What these checks cannot judge:
+  - Whether this is the right product to build, or whether users want it.
+  - Contradictions that need domain knowledge (for example 'votes are anonymous' versus 'the organizer sees who voted'). Only word overlap, negation and numeric bounds are compared.
+  - Whether an acceptance criterion is sufficient, only whether it is complete and names an observable outcome.
+  - Ambiguity outside the curated Spec Grader lexicon.
+  - Feasibility, effort, security or legal risk.

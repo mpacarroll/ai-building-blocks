@@ -1,0 +1,144 @@
+{
+  "run": 1,
+  "at": "2026-11-09T11:00:00Z",
+  "revision": 5,
+  "source": "junit.xml",
+  "criteria": {
+    "AC1": {
+      "status": "verified",
+      "fingerprint": "50eb9bc7c1",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac1_any_team_member_can_start_a",
+          "outcome": "passed",
+          "message": "",
+          "pin": "50eb9bc7c1"
+        }
+      ]
+    },
+    "AC2": {
+      "status": "unwritten",
+      "fingerprint": "9be8e6ff5b",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac2_a_voter_must_be_able_to",
+          "outcome": "failed",
+          "message": "NotImplementedError: write the check for AC2",
+          "pin": "9be8e6ff5b"
+        }
+      ]
+    },
+    "AC3": {
+      "status": "verified",
+      "fingerprint": "07bacebb21",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac3_a_voter_must_not_see_how",
+          "outcome": "passed",
+          "message": "",
+          "pin": "07bacebb21"
+        }
+      ]
+    },
+    "AC4": {
+      "status": "verified",
+      "fingerprint": "88483594ea",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac4_the_organizer_must_see_who_voted",
+          "outcome": "passed",
+          "message": "",
+          "pin": "88483594ea"
+        }
+      ]
+    },
+    "AC5": {
+      "status": "stale",
+      "fingerprint": "be3ce8dc88",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac5_the_poll_must_close_automatically_10",
+          "outcome": "passed",
+          "message": "",
+          "pin": "d051928e82"
+        }
+      ]
+    },
+    "AC6": {
+      "status": "verified",
+      "fingerprint": "afbc3ee754",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac6_a_voter_can_change_their_vote",
+          "outcome": "passed",
+          "message": "",
+          "pin": "afbc3ee754"
+        }
+      ]
+    },
+    "AC7": {
+      "status": "unwritten",
+      "fingerprint": "3373f3a0b5",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac7_results_must_appear_within_2_seconds",
+          "outcome": "failed",
+          "message": "NotImplementedError: write the check for AC7",
+          "pin": "3373f3a0b5"
+        }
+      ]
+    },
+    "AC8": {
+      "status": "verified",
+      "fingerprint": "6af4a1df30",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac8_the_tool_must_email_every_team",
+          "outcome": "passed",
+          "message": "",
+          "pin": "6af4a1df30"
+        }
+      ]
+    },
+    "AC9": {
+      "status": "unpinned",
+      "fingerprint": "7df1de6e41",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac9_every_team_member_must_get_an",
+          "outcome": "passed",
+          "message": "",
+          "pin": null
+        }
+      ]
+    },
+    "AC10": {
+      "status": "failing",
+      "fingerprint": "18f226eebf",
+      "tests": [
+        {
+          "test": "test_acceptance::test_ac10_when_two_or_more_places_tie",
+          "outcome": "failed",
+          "message": "AssertionError: assert ['A', 'B', 'C'] == ['A', 'B']",
+          "pin": "18f226eebf"
+        }
+      ]
+    }
+  },
+  "orphans": [],
+  "unmapped": [
+    "test_acceptance::test_clock_helper_reads_hh_mm_ss"
+  ],
+  "fingerprints": {
+    "AC1": "50eb9bc7c1",
+    "AC2": "9be8e6ff5b",
+    "AC3": "07bacebb21",
+    "AC4": "88483594ea",
+    "AC5": "be3ce8dc88",
+    "AC6": "afbc3ee754",
+    "AC7": "3373f3a0b5",
+    "AC8": "6af4a1df30",
+    "AC9": "7df1de6e41",
+    "AC10": "18f226eebf"
+  }
+}
