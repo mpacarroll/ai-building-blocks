@@ -1,0 +1,4 @@
+[
+  {"op": "edit", "id": "R5", "fields": {"text": "The poll must close automatically 15 minutes after it opens, unless the organizer closes it sooner."}},
+  {"op": "edit", "id": "AC5", "fields": {"then": "its status is closed at 12:15:00 and new votes are rejected"}}
+]

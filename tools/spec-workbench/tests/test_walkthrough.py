@@ -3,6 +3,7 @@ and its readiness story must hold (blocked at r1 and r2, ready at r3 and r4)."""
 import os
 import pathlib
 import subprocess
+import sys
 
 EX = pathlib.Path(__file__).resolve().parents[1] / "examples" / "team-lunch-poll"
 
@@ -15,7 +16,8 @@ def _files(root):
 def test_walkthrough_regenerates_committed_outputs(tmp_path):
     out = tmp_path / "output"
     subprocess.run(["bash", str(EX / "walkthrough.sh")], check=True, capture_output=True,
-                   env={"PATH": os.environ["PATH"], "SPEC_BENCH_EXAMPLE_OUT": str(out)})
+                   env={"PATH": os.environ["PATH"], "SPEC_BENCH_EXAMPLE_OUT": str(out),
+                        "PYTHON": sys.executable})
     committed = EX / "output"
     assert _files(committed) == _files(out)
     for name in _files(committed):

@@ -1,0 +1,5 @@
+Changes from revision 4 to revision 5
+  ~ AC5.then: 'its status is closed at 12:10:00 and new votes are rejected' -> 'its status is closed at 12:15:00 and new votes are rejected'
+  ~ R5.text: 'The poll must close automatically 10 minutes after it opens, unless the organizer closes it sooner.' -> 'The poll must close automatically 15 minutes after it opens, unless the organizer closes it sooner.'
+Findings resolved: 0
+Findings introduced: 0
