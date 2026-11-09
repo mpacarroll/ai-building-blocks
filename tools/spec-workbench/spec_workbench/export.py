@@ -224,7 +224,8 @@ def _evidence_html(spec, evid):
             + (f" <span class='muted'>{_e(t['message'])}</span>"
                if t["message"] and t["outcome"] != "passed" else "")
             for t in v["tests"]) or "<span class='muted'>none</span>"
-        note = f"<div class='fix'>{_e(v['note'])}</div>" if v.get("note") else ""
+        why = v.get("note") or (ev.STATUS_HELP[v["status"]] if v["status"] != ev.VERIFIED else "")
+        note = f"<div class='fix'>{_e(why)}</div>" if why else ""
         rows.append(f"<tr><td><b>{_e(ac_id)}</b><br><span class='muted'>"
                     f"{_e(acs[ac_id].get('requirement'))}</span></td>"
                     f"<td><span class='st st-{_e(v['status'])}'>{_e(v['status'])}</span>"

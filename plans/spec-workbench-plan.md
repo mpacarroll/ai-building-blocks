@@ -15,7 +15,14 @@
 6. CLI: every command, the all-or-nothing `apply`, gate exit codes and recovery through the CLI. `tests/test_cli.py`
 7. Golden example: the lunch poll walkthrough regenerates the committed outputs byte for byte. `tests/test_walkthrough.py`
 
+## Slice 2: evidence
+8. Fingerprints and pin comments in the pytest export. `tests/test_evidence.py`
+9. JUnit parsing, pin scanning, one status per criterion, orphans, requirement roll-up. `tests/test_evidence.py`
+10. Numbered evidence runs, re-reading an old run against the current spec, `verify` and `evidence` commands with gates. `tests/test_evidence.py`
+11. Checklist ticks and an HTML evidence section from the latest run. `tests/test_evidence.py`
+12. Golden example continues to revision 5 with a demo app and tests written from the revision 4 skeleton. `tests/test_walkthrough.py`
+
 ## Verification
-- `python3 -m pytest -q` in `tools/spec-workbench`: 41 tests pass.
+- `python3 -m pytest -q` in `tools/spec-workbench`: 58 tests pass.
 - `spec-bench` installs from a clean virtual environment.
 - Playwright renders the HTML report at phone and desktop widths, in light and dark mode, with no horizontal scroll and zero external requests.
