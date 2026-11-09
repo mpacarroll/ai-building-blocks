@@ -1,0 +1,110 @@
+Spec: Lunch poll idea (revision 1)
+Not ready to build: 15 blocking, 7 warning, 1 info, 0 waived
+
+BLOCKING
+  WB001 ambiguous-wording  [R1]
+    R1 uses ambiguous wording: few.
+    fix: Replace each term with a number, a list, or an observable behavior.
+    key: WB001:R1
+  WB002 missing-criterion  [R1]
+    R1 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R1 --given ... --when ... --then ...
+    key: WB002:R1
+  WB002 missing-criterion  [R3]
+    R3 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R3 --given ... --when ... --then ...
+    key: WB002:R3
+  WB002 missing-criterion  [R4]
+    R4 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R4 --given ... --when ... --then ...
+    key: WB002:R4
+  WB002 missing-criterion  [R5]
+    R5 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R5 --given ... --when ... --then ...
+    key: WB002:R5
+  WB002 missing-criterion  [R6]
+    R6 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R6 --given ... --when ... --then ...
+    key: WB002:R6
+  WB002 missing-criterion  [R7]
+    R7 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R7 --given ... --when ... --then ...
+    key: WB002:R7
+  WB002 missing-criterion  [R8]
+    R8 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R8 --given ... --when ... --then ...
+    key: WB002:R8
+  WB002 missing-criterion  [R10]
+    R10 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R10 --given ... --when ... --then ...
+    key: WB002:R10
+  WB002 missing-criterion  [R12]
+    R12 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R12 --given ... --when ... --then ...
+    key: WB002:R12
+  WB002 missing-criterion  [R13]
+    R13 (must) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R13 --given ... --when ... --then ...
+    key: WB002:R13
+  WB005 open-decision  [D1, R12]
+    D1 is open and R12 depend(s) on it: Slack or email? Options: Slack, email.
+    fix: spec-bench decide DIR D1 --choice ... --rationale ...
+    key: WB005:D1~R12
+  WB006 nongoal-conflict  [N1, R13]
+    R13 asks for what non-goal N1 rules out (shared words: app, mobile). N1: "No mobile app in v1." R13: "Members must get a push notification on the mobile app when a poll opens."
+    fix: Remove or rescope one of them, or record a decision explaining both.
+    key: WB006:N1~R13
+  WB007 bound-conflict  [R5, R6]
+    R5 "within 10 minutes" and R6 "at least 15 minutes" cannot both hold for: poll.
+    fix: Pick one limit, or make clear they apply to different things.
+    key: WB007:R5~R6
+  WB008 polarity-conflict  [R7, R8]
+    R7 and R8 say opposite things about the same behavior (60 percent word overlap). R7: "Voters can change their vote." R8: "Voters cannot change their vote once cast."
+    fix: Keep one, or state the condition that separates them.
+    key: WB008:R7~R8
+
+WARNING
+  WB001 ambiguous-wording  [R2]
+    R2 uses ambiguous wording: fast, ideally.
+    fix: Replace each term with a number, a list, or an observable behavior.
+    key: WB001:R2
+  WB002 missing-criterion  [R2]
+    R2 (should) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R2 --given ... --when ... --then ...
+    key: WB002:R2
+  WB002 missing-criterion  [R9]
+    R9 (should) has no acceptance criterion.
+    fix: spec-bench add DIR criterion --req R9 --given ... --when ... --then ...
+    key: WB002:R9
+  WB005 open-decision  [D2]
+    D2 is open: Should ties be broken randomly or by the organizer? Options: randomly, by the organizer.
+    fix: Decide it, or link the requirements it affects with --depends D2.
+    key: WB005:D2
+  WB007 bound-conflict (judgment call)  [R9, R10]
+    R9 "within 2 seconds" and R10 "under 1 second" set different limits on: result.
+    fix: Use one number, or name the two different things being limited.
+    key: WB007:R9~R10
+  WB012 unvalidated-assumption  [A1]
+    A1 has no validation plan: "I assume everyone already has a work email address."
+    fix: spec-bench edit DIR A1 --validation "how and when you will check it"
+    key: WB012:A1
+  WB012 unvalidated-assumption  [A2]
+    A2 has no validation plan: "Probably most people will vote from a laptop anyway."
+    fix: spec-bench edit DIR A2 --validation "how and when you will check it"
+    key: WB012:A2
+
+INFO
+  WB014 unclassified  [X1]
+    Intake could not classify line 26: "Make it look nice."
+    fix: Turn it into a real item (requirement, non-goal, ...) and remove X1, or remove it if it adds nothing.
+    key: WB014:X1
+
+Wording lint (Spec Grader): B (86/100)
+A numeric grade is never proof of success: it measures wording, not whether the spec describes the right thing or whether the built software works.
+
+What these checks cannot judge:
+  - Whether this is the right product to build, or whether users want it.
+  - Contradictions that need domain knowledge (for example 'votes are anonymous' versus 'the organizer sees who voted'). Only word overlap, negation and numeric bounds are compared.
+  - Whether an acceptance criterion is sufficient, only whether it is complete and names an observable outcome.
+  - Ambiguity outside the curated Spec Grader lexicon.
+  - Feasibility, effort, security or legal risk.

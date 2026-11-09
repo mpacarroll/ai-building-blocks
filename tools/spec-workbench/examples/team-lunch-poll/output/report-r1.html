@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spec workbench report</title><style>
+:root{--bg:#faf8f0;--card:#fff;--ink:#182219;--muted:#586459;--line:#e4dfce;
+ --block:#b3261e;--warn:#8a5a00;--info:#2d5f8a;--ok:#0f5a34;--chip:rgba(128,128,128,.14)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141c16;--card:#1a241d;
+ --ink:#e9efe9;--muted:#9aab9e;--line:#2a362d;--block:#ff8a80;--warn:#e6c766;--info:#8ab8e6;
+ --ok:#6fd19a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,
+ "Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.9rem;margin:.2em 0}
+h2{margin-top:2em;border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;
+ margin:12px 0}
+.banner{font-size:1.15rem;font-weight:700}
+.ready{color:var(--ok)} .notready{color:var(--block)}
+.counts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{background:var(--chip);border-radius:999px;padding:2px 10px;font-size:.9rem}
+.sev-blocking{color:var(--block);font-weight:700} .sev-warning{color:var(--warn);font-weight:700}
+.sev-info{color:var(--info);font-weight:700}
+.finding{border-left:4px solid var(--line);padding:8px 12px;margin:8px 0;background:var(--card);
+ border-radius:0 8px 8px 0;overflow-wrap:anywhere}
+.finding.blocking{border-left-color:var(--block)} .finding.warning{border-left-color:var(--warn)}
+.finding.info{border-left-color:var(--info)} .finding.waived{opacity:.65}
+.fix{color:var(--muted);font-size:.93rem}
+code{background:var(--chip);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+table{border-collapse:collapse;width:100%} td,th{text-align:left;padding:6px;
+ border-bottom:1px solid var(--line);vertical-align:top}
+.muted{color:var(--muted)} pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--card);
+ border:1px solid var(--line);border-radius:8px;padding:12px;font-size:.9rem}
+</style></head><body><main>
+<p class="muted">Spec workbench report (revision 1)</p>
+<h1>Lunch poll idea</h1>
+<div class="card"><p class='banner notready'>Not ready to build: 15 blocking finding(s).</p><div class="counts"><span class='chip'>15 blocking</span><span class='chip'>7 warning</span><span class='chip'>1 info</span><span class='chip'>0 waived</span></div>
+<p>Wording lint (Spec Grader): <b>B</b>
+(86/100). A numeric grade is never proof of success: it measures wording, not whether the spec describes the right thing or whether the built software works.</p></div>
+<h2>Findings</h2><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB001</code> ambiguous-wording<span class='muted'></span><div>R1 uses ambiguous wording: few.</div><div class='fix'>Fix: Replace each term with a number, a list, or an observable behavior.</div><div class='fix'>Key: <code>WB001:R1</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R1 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R1 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R1</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R3 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R3 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R3</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R4 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R4 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R4</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R5 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R5 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R5</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R6 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R6 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R6</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R7 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R7 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R7</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R8 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R8 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R8</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R10 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R10 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R10</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R12 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R12 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R12</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R13 (must) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R13 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R13</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB005</code> open-decision<span class='muted'></span><div>D1 is open and R12 depend(s) on it: Slack or email? Options: Slack, email.</div><div class='fix'>Fix: spec-bench decide DIR D1 --choice ... --rationale ...</div><div class='fix'>Key: <code>WB005:D1~R12</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB006</code> nongoal-conflict<span class='muted'></span><div>R13 asks for what non-goal N1 rules out (shared words: app, mobile). N1: &quot;No mobile app in v1.&quot; R13: &quot;Members must get a push notification on the mobile app when a poll opens.&quot;</div><div class='fix'>Fix: Remove or rescope one of them, or record a decision explaining both.</div><div class='fix'>Key: <code>WB006:N1~R13</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB007</code> bound-conflict<span class='muted'></span><div>R5 &quot;within 10 minutes&quot; and R6 &quot;at least 15 minutes&quot; cannot both hold for: poll.</div><div class='fix'>Fix: Pick one limit, or make clear they apply to different things.</div><div class='fix'>Key: <code>WB007:R5~R6</code></div></div><div class='finding blocking'><span class='sev-blocking'>blocking</span> <code>WB008</code> polarity-conflict<span class='muted'></span><div>R7 and R8 say opposite things about the same behavior (60 percent word overlap). R7: &quot;Voters can change their vote.&quot; R8: &quot;Voters cannot change their vote once cast.&quot;</div><div class='fix'>Fix: Keep one, or state the condition that separates them.</div><div class='fix'>Key: <code>WB008:R7~R8</code></div></div><div class='finding warning'><span class='sev-warning'>warning</span> <code>WB001</code> ambiguous-wording<span class='muted'></span><div>R2 uses ambiguous wording: fast, ideally.</div><div class='fix'>Fix: Replace each term with a number, a list, or an observable behavior.</div><div class='fix'>Key: <code>WB001:R2</code></div></div><div class='finding warning'><span class='sev-warning'>warning</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R2 (should) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R2 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R2</code></div></div><div class='finding warning'><span class='sev-warning'>warning</span> <code>WB002</code> missing-criterion<span class='muted'></span><div>R9 (should) has no acceptance criterion.</div><div class='fix'>Fix: spec-bench add DIR criterion --req R9 --given ... --when ... --then ...</div><div class='fix'>Key: <code>WB002:R9</code></div></div><div class='finding warning'><span class='sev-warning'>warning</span> <code>WB005</code> open-decision<span class='muted'></span><div>D2 is open: Should ties be broken randomly or by the organizer? Options: randomly, by the organizer.</div><div class='fix'>Fix: Decide it, or link the requirements it affects with --depends D2.</div><div class='fix'>Key: <code>WB005:D2</code></div></div><div class='finding warning'><span class='sev-warning'>warning</span> <code>WB007</code> bound-conflict<span class='muted'> judgment call</span><div>R9 &quot;within 2 seconds&quot; and R10 &quot;under 1 second&quot; set different limits on: result.</div><div class='fix'>Fix: Use one number, or name the two different things being limited.</div><div class='fix'>Key: <code>WB007:R9~R10</code></div></div><div class='finding warning'><span class='sev-warning'>warning</span> <code>WB012</code> unvalidated-assumption<span class='muted'></span><div>A1 has no validation plan: &quot;I assume everyone already has a work email address.&quot;</div><div class='fix'>Fix: spec-bench edit DIR A1 --validation &quot;how and when you will check it&quot;</div><div class='fix'>Key: <code>WB012:A1</code></div></div><div class='finding warning'><span class='sev-warning'>warning</span> <code>WB012</code> unvalidated-assumption<span class='muted'></span><div>A2 has no validation plan: &quot;Probably most people will vote from a laptop anyway.&quot;</div><div class='fix'>Fix: spec-bench edit DIR A2 --validation &quot;how and when you will check it&quot;</div><div class='fix'>Key: <code>WB012:A2</code></div></div><div class='finding info'><span class='sev-info'>info</span> <code>WB014</code> unclassified<span class='muted'></span><div>Intake could not classify line 26: &quot;Make it look nice.&quot;</div><div class='fix'>Fix: Turn it into a real item (requirement, non-goal, ...) and remove X1, or remove it if it adds nothing.</div><div class='fix'>Key: <code>WB014:X1</code></div></div>
+<h2>What these checks cannot judge</h2><ul><li>Whether this is the right product to build, or whether users want it.</li><li>Contradictions that need domain knowledge (for example &#x27;votes are anonymous&#x27; versus &#x27;the organizer sees who voted&#x27;). Only word overlap, negation and numeric bounds are compared.</li><li>Whether an acceptance criterion is sufficient, only whether it is complete and names an observable outcome.</li><li>Ambiguity outside the curated Spec Grader lexicon.</li><li>Feasibility, effort, security or legal risk.</li></ul>
+<h2>Spec</h2><pre># Lunch poll idea
+
+Revision 1. Generated by spec-bench from spec.json; edit the workspace, not this file.
+
+## Problem
+
+Every Friday our team wastes twenty minutes in chat arguing about where to get lunch.
+
+## Users
+
+- U1: It&#x27;s for small office teams, usually 5 to 15 people.
+
+## Goals
+
+- G1: The goal is to pick a place in under five minutes so people stop arguing.
+
+## Non-goals
+
+- N1: No mobile app in v1.
+- N2: Integrations with ordering services are out of scope.
+
+## Constraints
+
+- C1: Budget is one developer for two weeks.
+
+## Requirements
+
+1. **R1** (must) Anyone on the team can start a poll with a few restaurant options.
+2. **R2** (should) People should be able to vote fast, ideally from their phone.
+3. **R3** (must) Votes need to be anonymous.
+4. **R4** (must) The organizer must see who voted for what so they can place the order.
+5. **R5** (must) The poll must close automatically within 10 minutes.
+6. **R6** (must) Polls must stay open at least 15 minutes so remote people can vote.
+7. **R7** (must) Voters can change their vote.
+8. **R8** (must) Voters cannot change their vote once cast.
+9. **R9** (should) Results should show within 2 seconds of the poll closing.
+10. **R10** (must) Results must load in under 1 second.
+11. **R11** (could) It would be nice to remember everyone&#x27;s favorite places.
+12. **R12** (must) We need to send a reminder before the poll closes. Depends on D1.
+13. **R13** (must) Members must get a push notification on the mobile app when a poll opens.
+
+## Decisions
+
+- D1 (open): Slack or email? Options: Slack / email.
+- D2 (open): Should ties be broken randomly or by the organizer? Options: randomly / by the organizer.
+
+## Assumptions
+
+- A1: I assume everyone already has a work email address. Validation: none yet.
+- A2: Probably most people will vote from a laptop anyway. Validation: none yet.
+
+## Unclassified intake (review these)
+
+- X1 (line 26): Make it look nice.
+</pre>
+<h2>Test checklist</h2><pre># Test checklist: Lunch poll idea
+
+From revision 1.
+
+Tick an item only after you have watched the behavior happen. A ticked box is a claim, not proof; link the test or recording next to it.
+
+## Acceptance criteria
+
+## Requirements with no criterion (not testable yet)
+
+- [ ] R1 (must): Anyone on the team can start a poll with a few restaurant options.
+- [ ] R2 (should): People should be able to vote fast, ideally from their phone.
+- [ ] R3 (must): Votes need to be anonymous.
+- [ ] R4 (must): The organizer must see who voted for what so they can place the order.
+- [ ] R5 (must): The poll must close automatically within 10 minutes.
+- [ ] R6 (must): Polls must stay open at least 15 minutes so remote people can vote.
+- [ ] R7 (must): Voters can change their vote.
+- [ ] R8 (must): Voters cannot change their vote once cast.
+- [ ] R9 (should): Results should show within 2 seconds of the poll closing.
+- [ ] R10 (must): Results must load in under 1 second.
+- [ ] R11 (could): It would be nice to remember everyone&#x27;s favorite places.
+- [ ] R12 (must): We need to send a reminder before the poll closes.
+- [ ] R13 (must): Members must get a push notification on the mobile app when a poll opens.
+
+## Open decisions (resolve before building)
+
+- [ ] D1: Slack or email?
+- [ ] D2: Should ties be broken randomly or by the organizer?
+
+## Assumptions to validate
+
+- [ ] A1: I assume everyone already has a work email address. (no plan yet)
+- [ ] A2: Probably most people will vote from a laptop anyway. (no plan yet)
+</pre>
+<h2>Revision history</h2><table><tr><th>Rev</th><th>When</th><th>Message</th></tr><tr><td>1</td><td>2026-11-09T09:00:00Z</td><td>intake from brief.md</td></tr></table>
+</main></body></html>
