@@ -35,6 +35,22 @@ A spec is a JSON document with schema version 1 and these collections, each item
 17. `spec-bench waive DIR KEY --reason TEXT` MUST suppress one finding by key, and the report MUST still show the waived finding with its reason.
 18. The same spec MUST produce byte-identical check output on every run when `SPEC_BENCH_NOW` is set.
 
+## Evidence (slice 2)
+A ready spec is still only a plan. Evidence ties each acceptance criterion to a real test result, so "done" means "a current test passed", not "the spec scored well".
+
+19. Every test in the `pytest` export MUST carry a pin comment `# spec-bench: ACn fp=HASH` on the line above it, where HASH is a fingerprint of the criterion's requirement ID, given, when and then.
+20. `spec-bench verify DIR --junit FILE [--tests PATH ...]` MUST read a JUnit XML results file, map each test to criteria by its pin comments (found under `--tests`) or by an `acN` token in its name, and give every criterion exactly one status from: `verified`, `stale`, `unpinned`, `failing`, `unwritten`, `skipped`, `untested`.
+21. A criterion MUST be `verified` only when at least one mapped test passed, no mapped test failed, errored or was skipped, and every mapped test is pinned to the criterion's current fingerprint.
+22. A mapped test that passed while pinned to an older fingerprint MUST make the criterion `stale`: the criterion changed after the test was written, so the pass is not evidence for the current text.
+23. A test that fails with the skeleton's `NotImplementedError` MUST count as `unwritten`, not `failing`.
+24. Tests that name a criterion the spec no longer has MUST be listed as orphans.
+25. `verify` MUST save each run to `DIR/evidence/NNNN.json` (atomic, never deleted) with the spec revision, each criterion's fingerprint at that revision, and every test outcome. `--no-save` MUST skip this.
+26. When an evidence run is shown against a later spec revision, any criterion whose fingerprint changed since the run MUST be reported `stale`, and criteria added since the run MUST be reported `untested`.
+27. A requirement MUST roll up as `verified` only when it has at least one criterion and all of its criteria are `verified`.
+28. `verify --fail-on unverified` MUST exit 1 unless every criterion is `verified`; `--fail-on failing` MUST exit 1 if any criterion is `failing`.
+29. The HTML report MUST include the latest evidence run, and the checklist export MUST tick only `verified` criteria and name the test behind each tick.
+30. `verify` output MUST state that a passing test proves the test passed, not that it checks what the criterion says.
+
 ## Rule table
 | Rule | Severity | Fires when |
 |---|---|---|

@@ -7,7 +7,7 @@ I'm Mick. I build software by writing specs precise enough that AI agents implem
 ## The tools
 - **[KDP Niche Radar](tools/kdp-niche-radar/)** — find low-competition book niches in under a minute. Runs entirely on your machine, no account, no tracking. Built spec-first with a test before every function.
 - **[Spec Grader](tools/spec-grader/)** — grade a spec for ambiguity and testable requirements before you build from it. Deterministic, offline, CI-friendly. Point it at a spec and it tells you where an implementer would have to stop and ask a question. (It grades its own spec an A — and caught that the KDP Niche Radar spec needed numbered requirements to score well. Dogfooding works.)
-- **[Spec Workbench](tools/spec-workbench/)**: turn a messy brief into a buildable spec. It flags contradictions and open decisions, tracks every revision and generates a test checklist. Offline and rule based, built on Spec Grader. A perfect grade is not proof, and the example shows why.
+- **[Spec Workbench](tools/spec-workbench/)**: turn a messy brief into a buildable spec. It flags contradictions and open decisions, tracks every revision, generates a test checklist, and checks real test results against each acceptance criterion. Offline and rule based, built on Spec Grader. A perfect grade is not proof, and the example shows why.
 
 ## How to read this repo
 1. Start with a **spec** in [`specs/`](specs/) — the complete description an implementer builds from.

@@ -104,7 +104,7 @@
     },
     {
       "id": "R5",
-      "text": "The poll must close automatically 10 minutes after it opens, unless the organizer closes it sooner.",
+      "text": "The poll must close automatically 15 minutes after it opens, unless the organizer closes it sooner.",
       "priority": "must",
       "source": {
         "line": 11,
@@ -288,7 +288,7 @@
       "requirement": "R5",
       "given": "a poll opened at 12:00:00",
       "when": "no one closes it",
-      "then": "its status is closed at 12:10:00 and new votes are rejected",
+      "then": "its status is closed at 12:15:00 and new votes are rejected",
       "status": "draft"
     },
     {

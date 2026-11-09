@@ -6,9 +6,11 @@
   spec-bench add / edit / remove / decide / waive / apply   revise (each is a revision)
   spec-bench history DIR | diff DIR 1 3 | revert DIR 2
   spec-bench export DIR --format md|json|html|checklist|pytest [--out FILE]
+  spec-bench verify DIR --junit results.xml --tests tests/   map test results to criteria
+  spec-bench evidence DIR [RUN]           list evidence runs, or show one against the spec
 
 Fully local: no network, no account, no model calls. Exit codes: 0 ok,
-1 a --fail-on gate tripped, 2 usage or workspace error.
+1 a --fail-on gate tripped, 2 usage, workspace or evidence error.
 """
 import argparse
 import json
@@ -16,7 +18,7 @@ import pathlib
 import re
 import sys
 
-from . import checks, diff as diffmod, export, intake as intakemod, model, store, templates
+from . import checks, diff as diffmod, evidence as ev, export, intake as intakemod, model, store, templates
 
 
 def _err(msg):
@@ -284,13 +286,73 @@ def cmd_revert(a):
     return 0
 
 
+def _latest_evidence(ws, spec):
+    run = ev.latest_run(ws)
+    return (run, ev.current_view(spec, run)) if run else None
+
+
+def _gate(view, fail_on):
+    c = ev.counts(view["criteria"])
+    if fail_on == "unverified" and c[ev.VERIFIED] != len(view["criteria"]):
+        return 1
+    if fail_on == "failing" and c[ev.FAILING]:
+        return 1
+    return 0
+
+
+def cmd_verify(a):
+    spec = _load(a.dir)
+    rev = store.latest_rev(a.dir)
+    tests = ev.parse_junit(a.junit)
+    pins = ev.scan_pins(a.tests or [])
+    result = ev.evaluate(spec, tests, pins)
+    result["fingerprints"] = {k: v["fingerprint"] for k, v in result["criteria"].items()}
+    source = pathlib.Path(a.junit).name
+    if a.no_save:
+        label = f"Not saved (--no-save). {len(tests)} test result(s) from {source}."
+    else:
+        n = ev.save_run(a.dir, rev, source, result)
+        label = f"Saved evidence run {n}: {len(tests)} test result(s) from {source}."
+    if a.json:
+        print(json.dumps({"revision": rev, "counts": ev.counts(result["criteria"]),
+                          "requirements": ev.requirement_rollup(spec, result["criteria"]),
+                          **result, "limits": ev.LIMITS}, indent=2))
+    else:
+        print(ev.to_text(spec, result, rev, label), end="")
+    return _gate(result, a.fail_on)
+
+
+def cmd_evidence(a):
+    spec = _load(a.dir)
+    rs = ev.runs(a.dir)
+    if a.run is None:
+        if not rs:
+            print("No evidence runs yet. Run: spec-bench verify DIR --junit FILE --tests DIR")
+        for r in rs:
+            c = ev.counts(r["criteria"])
+            print(f"{r['run']:>4}  {r['at']}  revision {r['revision']}  {r['source']}  "
+                  f"{c[ev.VERIFIED]}/{len(r['criteria'])} verified")
+        return 0
+    run = next((r for r in rs if r["run"] == a.run), None)
+    if run is None:
+        raise ev.EvidenceError(f"no readable evidence run {a.run} in {a.dir}")
+    rev = store.latest_rev(a.dir)
+    label = (f"Evidence run {run['run']} ({run['source']}, recorded against revision "
+             f"{run['revision']}), read against the current spec.")
+    view = ev.current_view(spec, run)
+    print(ev.to_text(spec, view, rev, label), end="")
+    return _gate(view, a.fail_on)
+
+
 def cmd_export(a):
     spec = _load(a.dir)
     rev = store.latest_rev(a.dir)
     if a.format == "json":
         out = export.to_json(spec)
     elif a.format == "html":
-        out = export.to_html(spec, rev, store.history(a.dir))
+        out = export.to_html(spec, rev, store.history(a.dir), _latest_evidence(a.dir, spec))
+    elif a.format == "checklist":
+        out = export.to_checklist(spec, rev, _latest_evidence(a.dir, spec))
     else:
         out = export.FORMATS[a.format](spec, rev)
     if a.out:
@@ -373,6 +435,17 @@ def build_parser():
     p.add_argument("--format", required=True, choices=("md", "json", "html", "checklist",
                                                         "pytest"))
     p.add_argument("--out")
+    p = sp("verify", cmd_verify, "map JUnit test results to acceptance criteria")
+    p.add_argument("--junit", required=True, metavar="FILE",
+                   help="JUnit XML results, for example from pytest --junitxml FILE")
+    p.add_argument("--tests", action="append", metavar="PATH",
+                   help="test file or folder to scan for '# spec-bench:' pin comments")
+    p.add_argument("--no-save", action="store_true", help="do not record this run")
+    p.add_argument("--json", action="store_true")
+    p.add_argument("--fail-on", choices=("unverified", "failing"))
+    p = sp("evidence", cmd_evidence, "list evidence runs, or show one against the spec")
+    p.add_argument("run", nargs="?", type=int)
+    p.add_argument("--fail-on", choices=("unverified", "failing"))
     return ap
 
 
@@ -380,7 +453,7 @@ def main(argv=None) -> int:
     args = build_parser().parse_args(argv)
     try:
         return args.fn(args)
-    except (model.SpecError, store.WorkspaceError) as e:
+    except (model.SpecError, store.WorkspaceError, ev.EvidenceError) as e:
         _err(f"error: {e}")
         return 2
 
